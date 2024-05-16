@@ -32,6 +32,12 @@ public class Connexion_Base
      } catch (SQLException ex) {
          Logger.getLogger(Connexion_Base.class.getName()).log(Level.SEVERE, null, ex);
      }
+     
+     try {
+         st=co.createStatement();
+     } catch (SQLException ex) {
+         Logger.getLogger(Connexion_Base.class.getName()).log(Level.SEVERE, null, ex);
+     }
  }
    
 

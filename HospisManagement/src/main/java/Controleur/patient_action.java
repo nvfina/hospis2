@@ -23,7 +23,7 @@ public class patient_action {
         Connexion_Base CB=new Connexion_Base();
         CB.connect();
         
-        String req="insert into patient (codeP,nom,prenom,age,sexe,adresse) values ('"+p.getCodeP()+"','"+p.getNom()+"','"+p.getPrenom()+"','"+p.getAge()+"','"+p.getSexe()+"','"+p.getAdresse()+"')";
+        String req="insert into patient (nom,prenom,age,sexe,adresse) values ('"+p.getNom()+"','"+p.getPrenom()+"','"+p.getAge()+"','"+p.getSexe()+"','"+p.getAdresse()+"')";
         CB.st.executeUpdate(req);
         JOptionPane.showMessageDialog(null,"Enregistrement effectue avec succes");
         } catch (SQLException ex) {
@@ -38,7 +38,7 @@ public void patient_update(patient_model p)
     {   try {
         Connexion_Base CB=new Connexion_Base();
         CB.connect();
-        String req="update patient set nom='"+p.getNom()+"',prenom='"+p.getPrenom()+"',age='"+p.getAge()+"',sexe='"+p.getSexe()+"',adresse='"+p.getAdresse()+"',where codeP='"+p.getCodeP()+"'";
+        String req="update patient set nom='"+p.getNom()+"',prenom='"+p.getPrenom()+"',age='"+p.getAge()+"',sexe='"+p.getSexe()+"',adresse='"+p.getAdresse()+"' where codeP='"+p.getCodeP()+"'";
         
         CB.st.executeUpdate(req);
         } catch (SQLException ex) {
@@ -53,7 +53,7 @@ public void patient_del(int codeP)
     
     {Connexion_Base CB=new Connexion_Base();
      CB.connect();
-     String req="Delete from Utilisateur where codeP='"+codeP+"'";
+     String req="Delete from patient where codeP='"+codeP+"'";
         try {
             CB.st.executeUpdate(req);
         } catch (SQLException ex) {
@@ -62,31 +62,46 @@ public void patient_del(int codeP)
      
     }
 
-public void patient_find  (int codeP)
+public ResultSet patient_find  (int codeP)
     {patient_model p=null;
+    ResultSet rs=null;
      Connexion_Base CB=new Connexion_Base();
      CB.connect();
-     String req="select*from Utilisateur where codeP='"+codeP+"'";
+     String req="select*from patient where codeP='"+codeP+"'";
         try {
-            CB.st.executeQuery(req);
+             rs=CB.st.executeQuery(req);
         } catch (SQLException ex) {
             Logger.getLogger(patient_action.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        return rs;
 }
 
 
-public void patient_liste()
+public patient_model patient_liste()
      {ResultSet rs=null;
+     patient_model pm=new patient_model();
       Connexion_Base CB=new Connexion_Base();
       CB.connect();
       String req="Select*from patient";
         try {
-            CB.st.executeUpdate(req);
+            rs=CB.st.executeQuery(req);
+            if(rs.next())
+            {
+            pm.setCodeP(rs.getInt("codeP"));
+            pm.setNom(rs.getString("nom"));
+            pm.setPrenom(rs.getString("prenom"));
+            pm.setAge(rs.getString("age"));
+            pm.setSexe(rs.getString("sexe"));
+            pm.setAdresse(rs.getString("adresse"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(patient_action.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return pm;
 }
+
 
 
 }

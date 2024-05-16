@@ -21,7 +21,7 @@ public class dossier_action
 public void dossier_add(dossier_model d)
       {Connexion_Base CB=new Connexion_Base();
        CB.connect();
-       String req="insert into dossier (id,dateCreation,natureExamen,dateExamen,observations,codeP) values ('"+d.getDateCreation()+"','"+d.getNatureExamen()+"','"+d.getDateExamen()+"','"+d.getObservations()+"','"+d.getCodeP()+"')";
+       String req="insert into dossier (dateCreation,natureExamen,dateExamen,observations,codeP) values ('"+d.getDateCreation()+"','"+d.getNatureExamen()+"','"+d.getDateExamen()+"','"+d.getObservations()+"','"+d.getCodeP()+"')";
     try {
         CB.st.executeUpdate(req);
         
@@ -49,7 +49,7 @@ public void dossier_del(int id)
     
       {Connexion_Base CB=new Connexion_Base();
        CB.connect();
-       String req="Delete from Utilisateur where id='"+id+"'";
+       String req="Delete from dossier where id='"+id+"'";
     try {
         CB.st.executeUpdate(req);
     } catch (SQLException ex) {
@@ -61,7 +61,7 @@ public void dossier_find  (int id)
       {dossier_model d=null;
        Connexion_Base CB=new Connexion_Base();
        CB.connect();
-       String req="select*from Utilisateur where id='"+id+"'";
+       String req="select*from dossier where id='"+id+"'";
     try {
         CB.st.executeQuery(req);
         
@@ -71,16 +71,18 @@ public void dossier_find  (int id)
       }
 
 
-public void dossier_liste()
+public ResultSet dossier_liste()
       {ResultSet rs=null;
        Connexion_Base CB=new Connexion_Base();
        CB.connect();
-       String req="Select*from patient";
+       String req="Select*from dossier";
     try {
-        CB.st.executeUpdate(req);
+        rs=CB.st.executeQuery(req);
     } catch (SQLException ex) {
         Logger.getLogger(dossier_action.class.getName()).log(Level.SEVERE, null, ex);
     }
+    
+    return rs;
       }
 
 
